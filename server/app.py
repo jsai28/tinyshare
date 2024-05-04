@@ -1,12 +1,14 @@
 from flask import Flask, request, redirect, abort
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+from flask_cors import CORS
 import hashlib
 import base64
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:password@localhost/tinyshare'
 db = SQLAlchemy(app)
+CORS(app)
 
 class Link(db.Model):
     id = db.Column(db.Integer, primary_key=True)
