@@ -11,15 +11,19 @@
 }
 
 .title {
-  margin: 5px 0px;
+  margin: 10px 0px 5px;
 }
 
 .title2 {
-  margin: 10px 0px;
+  margin: 15px 0px 10px;
+}
+
+.title3 {
+  margin: 20px 0px 10px;
 }
 
 .submit {
-  margin: 15px 0px 0px;
+  margin: 10px 0px 0px;
   background: #3e73d9;
 }
 

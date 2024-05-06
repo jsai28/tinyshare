@@ -12,6 +12,7 @@ const baseURL = "http://localhost:5000";
 function Menu() {
   const [originalURL, setOriginalURL] = useState("");
   const [password, setPassword] = useState("");
+  const [expiryDate, setExpiryDate] = useState("");
   const [tinyshareURL, setTinyshareURL] = useState("");
 
   const handleSubmit = async (e) => {
@@ -21,7 +22,11 @@ function Menu() {
         title: "title",
         description: "description",
         original_url: originalURL,
+        password: password,
+        expiry_date: expiryDate,
       });
+      console.log(password);
+      console.log(expiryDate.$d);
       setTinyshareURL(baseURL + "/" + data.data.tinyshare_url);
     } catch (err) {
       console.error(err.message);
@@ -32,10 +37,10 @@ function Menu() {
     <>
       <Grid className="grid">
         <Typography variant="h6" align="center">
-          Create a short URL with an optional password and expiry date!
+          Create a short URL with an optional code and expiry date!
         </Typography>
       </Grid>
-      <Paper elevation={3} className="menu">
+      <Paper elevation={3} className="menu" sx={{ borderRadius: "30px" }}>
         <Grid container direction="column">
           <form onSubmit={handleSubmit}>
             <Grid className="title">
@@ -53,29 +58,35 @@ function Menu() {
               required
               variant="filled"
             />
-            <Grid className="title">
-              <Typography variant="h5">Password</Typography>
+            <Grid className="title2">
+              <Typography variant="h5">Secret Code</Typography>
             </Grid>
             <TextField
-              label="Enter Password"
+              label="Enter Code"
               onChange={(e) => setPassword(e.target.value)}
-              type="password"
+              type="text"
               name="Password"
               id="password"
               fullWidth
               variant="filled"
             />
-            <Grid className="title2">
+            <Grid className="title3">
               <Typography variant="h5">Expiry Date</Typography>
             </Grid>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <DatePicker label="Select Expiry Date" />
+              <DatePicker
+                label="Select Expiry Date"
+                onChange={(e) => {
+                  setExpiryDate(e);
+                }}
+              />
             </LocalizationProvider>
             <Button
               className="submit"
               variant="contained"
               fullWidth
               type="submit"
+              sx={{ margin: "15px 0px 0px" }}
             >
               Submit
             </Button>
