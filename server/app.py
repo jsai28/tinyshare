@@ -2,6 +2,8 @@ from flask import Flask, request, redirect, abort
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from flask_cors import CORS
+from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.triggers.cron import CronTrigger
 import hashlib
 import base64
 import time
@@ -10,6 +12,17 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:password@localhost/tinyshare'
 db = SQLAlchemy(app)
 CORS(app)
+
+scheduler = BackgroundScheduler()
+@scheduler.scheduled_job(CronTrigger(hour=0))  # Run at midnight (00:00)
+def delete_expired_links():
+    current_time = datetime.now()
+    expired_links = Link.query.filter(Link.expiry_date <= current_time).all()
+    for link in expired_links:
+        db.session.delete(link)
+    db.session.commit()
+
+scheduler.start()
 
 class Link(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -70,31 +83,6 @@ def get_links():
         links_list.append(format_link(link))
     
     return {'links': links_list}
-
-# get single link
-@app.route('/link/<id>', methods=['GET'])
-def get_link(id):
-    link = Link.query.filter_by(id=id).one()
-    formatted_link = format_link(link)
-
-    return {'link': formatted_link}
-
-# delete a link
-@app.route('/link/<id>', methods=['DELETE'])
-def delete_link(id):
-    link = Link.query.filter_by(id=id).one()
-    db.session.delete(link)
-    db.session.commit()
-    return f'Link (id: {id}) deleted!'
-
-# edit a link
-@app.route('/link/<id>', methods=['PUT'])
-def update_link(id):
-    link = Link.query.filter_by(id=id)
-    original_url = request.json['original_url']
-    link.update(dict(original_url=original_url, created_at=datetime.now()))
-    db.session.commit()
-    return {'link': format_link(link.one())}
 
 # reroute link
 @app.route('/<short_code>')
