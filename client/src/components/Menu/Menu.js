@@ -11,8 +11,8 @@ const baseURL = "http://localhost:5000";
 
 function Menu() {
   const [originalURL, setOriginalURL] = useState("");
-  const [password, setPassword] = useState("");
-  const [expiryDate, setExpiryDate] = useState("");
+  const [password, setPassword] = useState(null);
+  const [expiryDate, setExpiryDate] = useState(null);
   const [tinyshareURL, setTinyshareURL] = useState("");
 
   const handleSubmit = async (e) => {
@@ -25,8 +25,6 @@ function Menu() {
         password: password,
         expiry_date: expiryDate,
       });
-      console.log(password);
-      console.log(expiryDate.$d);
       setTinyshareURL(baseURL + "/" + data.data.tinyshare_url);
     } catch (err) {
       console.error(err.message);
@@ -86,7 +84,7 @@ function Menu() {
               variant="contained"
               fullWidth
               type="submit"
-              sx={{ margin: "15px 0px 0px" }}
+              sx={{ margin: "15px 0px 0px", background: "#3e73d9" }}
             >
               Submit
             </Button>
@@ -107,7 +105,11 @@ function Menu() {
               />
             </Grid>
             <Grid item xs={2}>
-              <Button variant="contained" className="copy">
+              <Button
+                variant="contained"
+                className="copy"
+                sx={{ background: "#3e73d9" }}
+              >
                 Copy
               </Button>
             </Grid>
