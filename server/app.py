@@ -4,6 +4,7 @@ from datetime import datetime
 from flask_cors import CORS
 import hashlib
 import base64
+import time
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:password@localhost/tinyshare'
@@ -38,7 +39,7 @@ def format_link(link):
     }
 
 def create_tinyshare_url(original_url):
-    hash_object = hashlib.sha256(original_url.encode())
+    hash_object = hashlib.sha256((original_url+str(time.time())).encode())
     hash_hex = hash_object.hexdigest()
     short_code = base64.urlsafe_b64encode(bytes.fromhex(hash_hex[:8])).decode()
     return short_code[:6]

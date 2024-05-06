@@ -1,0 +1,44 @@
+.menu {
+  background: #ededf0;
+  padding: 20px 25px 30px;
+  margin: 50px auto;
+  width: 70%;
+}
+
+.grid {
+  margin: 10px 0px 20px;
+}
+
+.title {
+  margin: 5px 0px;
+}
+
+.title2 {
+  margin: 10px 0px;
+}
+
+.submit {
+  margin: 15px 0px 0px;
+}
+
+form {
+  width: 100%;
+}
+
+@media only screen and (min-width: 900px) {
+  .menu {
+    width: 60%;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .menu {
+    width: 50%;
+  }
+}
+
+@media only screen and (min-width: 1600px) {
+  .menu {
+    width: 40%;
+  }
+}
