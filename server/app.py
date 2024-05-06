@@ -102,7 +102,30 @@ def redirect_to_original(short_code):
     link = Link.query.filter_by(tinyshare_url=short_code).first()
     if link is None:
         abort(404)
-    return redirect(link.original_url, code=301)
+    
+    if link.password:
+        if 'password' not in request.args:
+            alert_message = "This link is password-protected. Please enter the password:"
+            return f"""
+            <script>
+            var password = prompt("{alert_message}");
+            if (password !== null) {{
+                window.location.href = window.location.href + "?password=" + password;
+            }} else {{
+                window.location.href = "/";
+            }}
+            </script>
+            """
+        
+        else:
+            password = request.args.get('password')
+            if password == link.password:
+                return redirect(link.original_url, code=301)
+            else:
+                return "Incorrect password. Please try again."
+
+    else:
+        return redirect(link.original_url, code=301)
 
 if __name__ == "__main__":
     app.run()
