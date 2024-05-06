@@ -31,6 +31,10 @@ function Menu() {
     }
   };
 
+  const handleCopy = () => {
+    navigator.clipboard.writeText(tinyshareURL);
+  };
+
   return (
     <>
       <Grid className="grid">
@@ -77,6 +81,7 @@ function Menu() {
                 onChange={(e) => {
                   setExpiryDate(e);
                 }}
+                disablePast
               />
             </LocalizationProvider>
             <Button
@@ -109,6 +114,7 @@ function Menu() {
                 variant="contained"
                 className="copy"
                 sx={{ background: "#3e73d9" }}
+                onClick={handleCopy}
               >
                 Copy
               </Button>
