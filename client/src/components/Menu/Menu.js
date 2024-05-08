@@ -7,7 +7,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 import "./Menu.css";
 
-const baseURL = "https://tinyshare.onrender.com";
+const baseURL = "https://tinyshare.onrender.com/";
 
 function Menu() {
   const [originalURL, setOriginalURL] = useState("");
@@ -25,7 +25,7 @@ function Menu() {
         password: password,
         expiry_date: expiryDate,
       });
-      setTinyshareURL(baseURL + "/" + data.data.tinyshare_url);
+      setTinyshareURL(baseURL + data.data.tinyshare_url);
     } catch (err) {
       console.error(err.message);
     }
