@@ -7,10 +7,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 import "./Menu.css";
 
-const baseURL =
-  process.env.NODE_ENV === "development"
-    ? "http://localhost:5000/"
-    : window.location.origin;
+const baseURL = "https://tinyshare.onrender.com/";
 
 function Menu() {
   const [originalURL, setOriginalURL] = useState("");
