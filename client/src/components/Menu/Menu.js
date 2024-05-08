@@ -7,7 +7,7 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 import "./Menu.css";
 
-const baseURL = "https://tinyshare.onrender.com/";
+const baseURL = "https://tinyshare.onrender.com";
 
 function Menu() {
   const [originalURL, setOriginalURL] = useState("");
