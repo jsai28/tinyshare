@@ -1,4 +1,4 @@
-from flask import Flask, request, redirect, abort
+from flask import Flask, request, redirect, abort, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from flask_cors import CORS
@@ -7,9 +7,10 @@ from apscheduler.triggers.cron import CronTrigger
 import hashlib
 import base64
 import time
+import os
 
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:password@localhost/tinyshare'
+app = Flask(__name__, static_folder='../client/build')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL")
 db = SQLAlchemy(app)
 CORS(app)
 
@@ -59,7 +60,13 @@ def create_tinyshare_url(original_url):
 
 @app.route('/')
 def index():
-    return 'Hello, World!'
+    return send_from_directory(app.static_folder, 'index.html')
+
+@app.route('/<path:path>')
+def serve_static(path):
+    if os.path.exists(os.path.join(app.static_folder, path)):
+        return send_from_directory(app.static_folder, path)
+    return send_from_directory(app.static_folder, 'index.html')
 
 # create a link
 @app.route('/link', methods = ['POST'])
