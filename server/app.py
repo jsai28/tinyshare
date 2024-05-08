@@ -9,7 +9,7 @@ import base64
 import time
 import os
 
-app = Flask(__name__, static_folder='../client/build')
+app = Flask(__name__, static_folder='build')
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL")
 db = SQLAlchemy(app)
 CORS(app)
